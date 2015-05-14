@@ -22,11 +22,35 @@ void create_file(std::string filename)
     f.close();
 }
 
+void print_message(std::string message)
+{
+    if (message != "")
+    {
+        std::cout << message << std::endl;
+    }
+}
+
+void print_file(std::string filename)
+{
+    if (filename != "")
+    {
+        std::ifstream file(filename);
+        if (file.is_open())
+        {
+            std::string t;
+            file >> t;
+            std::cout << t << std::endl;
+        }
+    }
+}
+
 const std::string keys
 (
     "{ help h   |    | print this help information }"
     "{ :time t  | 25 | build time                  }"
     "{ :o       |    | create file                 }"
+    "{ :pf      |    | print text from file        }"
+    "{ :pt      |    | print text from parametr    }"
 );
 
 int main(int argc, char **argv)
@@ -43,6 +67,9 @@ int main(int argc, char **argv)
     std::string filename = parser.get<std::string>("o");
     int64_t time = parser.get<int64_t>("time");
 
+    std::string file_to_print = parser.get<std::string>("pf");
+    std::string message = parser.get<std::string>("pt");
+
     if (parser.is_error())
     {
         parser.print_errors();
@@ -50,6 +77,8 @@ int main(int argc, char **argv)
     }
 
     create_file(filename);
+    print_file(file_to_print);
+    print_message(message);
     compile(time);
 
     return 0;
